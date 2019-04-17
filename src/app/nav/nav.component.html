@@ -135,19 +135,19 @@
         <p>Dating App</p>
       </div>
       <ul class="nav navbar-nav nav-flex-icons ml-auto">
-        <li class="nav-item">
+        <li *ngIf="!loggedIn()" class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#modalLRForm"
-            ><i class="fas fa-envelope"></i>
-            <span class="clearfix d-none d-sm-inline-block">Contact</span></a
+            ><i class="fas fa-user"></i>
+            <span class="clearfix d-none d-sm-inline-block">Profile</span></a
           >
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link"
             ><i class="far fa-comments"></i>
             <span class="clearfix d-none d-sm-inline-block">Support</span></a
           >
-        </li>
-        <li class="nav-item dropdown">
+        </li> -->
+        <!-- <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
             href="#"
@@ -156,7 +156,8 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <i class="fas fa-user"></i>
+          <i class="fas fa-envelope"></i>
+            
             Account
           </a>
           <div
@@ -167,8 +168,8 @@
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
-        </li>
-        <li class="nav-item dropdown">
+        </li> -->
+        <li *ngIf="loggedIn()" class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
             href="#"
@@ -177,15 +178,15 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Dropdown
+            Welcome User
           </a>
           <div
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdownMenuLink"
           >
-            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-user-edit"></i>Edit Profile</a>
             <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#" (click)="logout()" ><i class="fas fa-power-off"></i>Logout</a>
           </div>
         </li>
       </ul>
@@ -196,13 +197,11 @@
 
   <!--Main Layout-->
   <main>
-    <div class="container-fluid">
-      <h2>Advanced Double Navigation with fixed SideNav & non-fixed Navbar:</h2>
-      <br />
-      <h5>1. Fixed side menu, hidden on small devices.</h5>
-      <h5>2. Non-fixed Navbar. It will disappear when you scroll down.</h5>
-      <div style="height: 2000px"></div>
-    </div>
+      
+    <app-home></app-home>
+    <!-- <app-value></app-value> -->
+  
+    
   </main>
   <!--Main Layout-->
 
@@ -243,7 +242,7 @@
 
           <!-- Tab panels -->
           <div class="tab-content">
-            <!--Panel 7-->
+            <!--Panel Login-->
             <div
               class="tab-pane fade in show active"
               id="panel7"
@@ -254,11 +253,11 @@
                 <form  #loginForm="ngForm" (ngSubmit)="login()">
                   <div class="md-form form-sm mb-5">
                     <i class="fas fa-user prefix"></i>
-                    <input
+                    <input required
                       name="username"
                       type="text"
                       class="form-control form-control-sm validate"
-                      [(ngModel)]="model.username"
+                      [(ngModel)]="loginModel.username"
                     />
                     <label
                       data-error="wrong"
@@ -270,11 +269,11 @@
 
                   <div class="md-form form-sm mb-4">
                     <i class="fas fa-lock prefix"></i>
-                    <input
+                    <input required
                       name= "password"
                       type="password"
                       class="form-control form-control-sm validate"
-                      [(ngModel)]="model.password"
+                      [(ngModel)]="loginModel.password"
                     />
                     <label
                       data-error="wrong"
@@ -284,7 +283,7 @@
                     >
                   </div>
                   <div class="text-center mt-2">
-                    <button class="btn btn-info" type="submit" [disabled]="!loginForm.valid">
+                    <button [disabled]="!loginForm.valid" class="btn btn-info" type="submit">
                       Log in <i class="fas fa-sign-in ml-1"></i>
                     </button>
                   </div>
@@ -297,7 +296,7 @@
                   <p>Not a member? <a href="#" class="blue-text">Sign Up</a></p>
                   <p>Forgot <a href="#" class="blue-text">Password?</a></p>
                 </div>
-                <button
+                <button (click)="cancel($event)"
                   type="button"
                   class="btn btn-outline-info waves-effect ml-auto"
                   data-dismiss="modal"
@@ -308,14 +307,16 @@
             </div>
             <!--/.Panel 7-->
 
-            <!--Panel 8-->
+            <!--Panel Register-->
             <div class="tab-pane fade" id="panel8" role="tabpanel">
               <!--Body-->
               <div class="modal-body">
+                <form #registerForm="ngForm" (ngSubmit)="register()">
                 <div class="md-form form-sm mb-5">
                   <i class="fas fa-envelope prefix"></i>
-                  <input
-                    type="email"
+                  <input required name="username"
+                    [(ngModel)]="registerModel.username"
+                    type="text"
                     id="modalLRInput12"
                     class="form-control form-control-sm validate"
                   />
@@ -323,13 +324,14 @@
                     data-error="wrong"
                     data-success="right"
                     for="modalLRInput12"
-                    >Your email</label
+                    >Username</label
                   >
                 </div>
 
                 <div class="md-form form-sm mb-5">
                   <i class="fas fa-lock prefix"></i>
-                  <input
+                  <input required name="password"
+                    [(ngModel)]="registerModel.password"
                     type="password"
                     id="modalLRInput13"
                     class="form-control form-control-sm validate"
@@ -344,7 +346,8 @@
 
                 <div class="md-form form-sm mb-4">
                   <i class="fas fa-lock prefix"></i>
-                  <input
+                  <input required name="repassword"
+                    [(ngModel)]="registerModel.repassword"
                     type="password"
                     id="modalLRInput14"
                     class="form-control form-control-sm validate"
@@ -362,6 +365,7 @@
                     Sign up <i class="fas fa-sign-in ml-1"></i>
                   </button>
                 </div>
+              </form>
               </div>
               <!--Footer-->
               <div class="modal-footer">
@@ -371,7 +375,9 @@
                     <a href="#" class="blue-text">Log In</a>
                   </p>
                 </div>
-                <button
+                <button 
+                  
+                  (click)="cancel($event)"
                   type="button"
                   class="btn btn-outline-info waves-effect ml-auto"
                   data-dismiss="modal"
@@ -389,7 +395,7 @@
   </div>
   <!--Modal: Login / Register Form-->
 
-  <div class="text-center">
+  <!-- <div class="text-center">
     <a
       href=""
       class="btn btn-default btn-rounded my-3"
@@ -397,5 +403,5 @@
       data-target="#modalLRForm"
       >Launch Modal LogIn/Register</a
     >
-  </div>
+  </div> -->
 </body>

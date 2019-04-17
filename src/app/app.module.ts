@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ValueComponent } from './value/value.component';
 import { NavComponent } from './nav/nav.component';
+import { AuthService } from './services/auth.service';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -14,7 +16,8 @@ import { NavComponent } from './nav/nav.component';
    declarations: [
       AppComponent,
       ValueComponent,
-      NavComponent
+      NavComponent,
+      HomeComponent
    ],
    imports: [
       BrowserModule,
@@ -22,7 +25,9 @@ import { NavComponent } from './nav/nav.component';
       HttpClientModule,
       FormsModule
    ],
-   providers: [],
+   providers: [
+      AuthService
+   ],
    bootstrap: [
       AppComponent
    ]
