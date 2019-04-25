@@ -10,6 +10,7 @@ import { NavComponent } from './nav/nav.component';
 import { AuthService } from './services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { ErrorInterceptorProvider } from './services/error.interceptor';
+import { AlertifyService } from './services/alertify.service';
 
 
 
@@ -28,7 +29,8 @@ import { ErrorInterceptorProvider } from './services/error.interceptor';
    ],
    providers: [
       AuthService,
-      ErrorInterceptorProvider
+      ErrorInterceptorProvider,
+      AlertifyService
    ],
    bootstrap: [
       AppComponent

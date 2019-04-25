@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { AlertifyService } from '../services/alertify.service';
 
 @Component({
   selector: 'app-nav',
@@ -10,35 +11,36 @@ export class NavComponent implements OnInit {
   loginModel: any = {};
   registerModel: any = {};
   @Output() cancelRegister = new EventEmitter();
-  constructor(private authService: AuthService) {}
+  constructor(public authService: AuthService , private  alertify: AlertifyService) {}
   ngOnInit() {}
 
   login() {
     this.authService.login(this.loginModel).subscribe(
       next => {
-        console.log('Logged in succssefully');
+        this.alertify.success('Logged in succssefully');
       },
       error => {
-        console.log(error);
+        this.alertify.error(error);
       }
     );
   }
 
   loggedIn() {
-    const token = localStorage.getItem('token');
-    return !!token;
+    // const token = localStorage.getItem('token');
+    // return !!token; OR
+    return this.authService.loggedIn();
   }
 
   logout() {
     localStorage.removeItem('token');
-    console.log('logged out');
+    this.alertify.message('logged out');
   }
 
   register() {
     this.authService.register(this.registerModel).subscribe(() => {
-      console.log('Registration successful');
+      this.alertify.success('Registration successful');
     }, error => {
-      console.log(error);
+      this.alertify.error(error);
     });
   }
 
