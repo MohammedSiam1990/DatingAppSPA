@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row">
+    <h1>{{user.knownAs}}'s Profile</h1>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+
+      <!-- Card Narrower -->
+      <div class="card card-cascade narrower">
+
+        <!-- Card image -->
+        <div class="view view-cascade overlay">
+          <img class="card-img-top" src="{{user.photoUrl}}" alt="{{user.knownAs}}">
+          <a>
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!-- Card content -->
+        <div class="card-body card-body-cascade">
+          <div>
+            <strong>Location:</strong>
+            <p>{{user.city}}, {{user.country}}</p>
+          </div>
+
+          <div>
+            <strong>Age:</strong>
+            <p>{{user.age}}</p>
+          </div>
+
+          <div>
+            <strong>Last Active:</strong>
+            <p>{{user.lastActive}}</p>
+          </div>
+
+          <div>
+            <strong>Member Since:</strong>
+            <p>{{user.created}}</p>
+          </div>
+
+          <!-- Button -->
+          <a class="btn btn-unique">Like</a>
+          <a class="btn btn-success">Message</a>
+
+        </div>
+
+      </div>
+      <!-- Card Narrower -->
+    </div>
+    <div class="col-lg-8">
+      <ul class="nav nav-tabs md-tabs" id="myTabEx" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active show" id="profile-tab-ex" data-toggle="tab" href="#profile-ex" role="tab"
+            aria-controls="profile-ex" aria-selected="true">About {{user.knownAs}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="Interests-tab-ex" data-toggle="tab" href="#Interests-ex" role="tab"
+            aria-controls="Interests-ex" aria-selected="false">Interests</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="Photos-tab-ex" data-toggle="tab" href="#Photos-ex" role="tab"
+            aria-controls="Photos-ex" aria-selected="false">Photos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="Messages-tab-ex" data-toggle="tab" href="#Messages-ex" role="tab"
+            aria-controls="Messages-ex" aria-selected="false">Messages</a>
+        </li>
+      </ul>
+      <div class="tab-content pt-5" id="myTabContentEx">
+        <div class="tab-pane fade active show" id="profile-ex" role="tabpanel" aria-labelledby="profile-tab-ex">
+          <h4>Description</h4>
+          <p>{{user.introduction}}</p>
+          <h4>Looking For</h4>
+          <p>{{user.lookingFor}}</p>
+        </div>
+        <div class="tab-pane fade" id="Interests-ex" role="tabpanel" aria-labelledby="Interests-tab-ex">
+          <h4>Interests</h4>
+          <p>{{user.interests}}</p>
+        </div>
+        <div class="tab-pane fade" id="Photos-ex" role="tabpanel" aria-labelledby="Photos-tab-ex">
+          <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+        </div>
+        <div class="tab-pane fade" id="Messages-ex" role="tabpanel" aria-labelledby="Messages-tab-ex">
+          <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro
+            fanny pack lo-fi farm-to-table readymade.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
