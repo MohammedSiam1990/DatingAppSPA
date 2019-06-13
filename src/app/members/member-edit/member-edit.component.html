@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h1>Your Profile</h1>
+    </div>
+    <div class="col-sm-8" *ngIf="editForm.dirty">
+      <div class="alert alert-info" role="alert">
+        <strong><b>Information :</b></strong>You have made changes. Any unsaved changes will e lost!
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+
+      <!-- Card Narrower -->
+      <div class="card card-cascade narrower">
+
+        <!-- Card image -->
+        <div class="view view-cascade overlay">
+          <img class="card-img-top" src="{{user.photoUrl}}" alt="{{user.knownAs}}">
+          <a>
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!-- Card content -->
+        <div class="card-body card-body-cascade">
+          <div>
+            <strong>Name:</strong>
+            <p>{{user.knownAs}}</p>
+          </div>
+          <div>
+            <strong>Location:</strong>
+            <p>{{user.city}}, {{user.country}}</p>
+          </div>
+
+          <div>
+            <strong>Age:</strong>
+            <p>{{user.age}}</p>
+          </div>
+
+          <div>
+            <strong>Last Active:</strong>
+            <p>{{user.lastActive}}</p>
+          </div>
+
+          <div>
+            <strong>Member Since:</strong>
+            <p>{{user.created}}</p>
+          </div>
+
+          <!-- Button -->
+          <div><button class="btn btn-success w-100" form="editForm" [disabled]="!editForm.dirty">Save Changes</button></div>
+
+
+        </div>
+
+      </div>
+      <!-- Card Narrower -->
+    </div>
+    <div class="col-lg-8">
+      <ul class="nav nav-tabs md-tabs" id="myTabEx" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active show" id="profile-tab-ex" data-toggle="tab" href="#profile-ex" role="tab"
+            aria-controls="profile-ex" aria-selected="true">Edit Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="Interests-tab-ex" data-toggle="tab" href="#Interests-ex" role="tab"
+            aria-controls="Interests-ex" aria-selected="false">Edit Photos</a>
+        </li>
+
+      </ul>
+      <div class="tab-content pt-5" id="myTabContentEx">
+        <div class="tab-pane fade active show" id="profile-ex" role="tabpanel" aria-labelledby="profile-tab-ex">
+          <form #editForm="ngForm" id="editForm" (ngSubmit) ="updateUser()">
+            <!--Textarea with icon prefix-->
+            <div class="md-form mb-4 pink-textarea active-pink-textarea">
+              <i class="fas fa-angle-double-right prefix"></i>
+              <textarea id="form21" class="md-textarea form-control" name="introduction" rows="3"
+                [(ngModel)]="user.introduction"></textarea>
+              <label for="form21">Description :</label>
+            </div>
+
+            <!--Textarea with icon prefix-->
+            <div class="md-form amber-textarea active-amber-textarea">
+              <i class="fas fa-pencil-alt prefix"></i>
+              <textarea id="form22" class="md-textarea form-control" name="lookingFor" rows="3"
+                [(ngModel)]="user.lookingFor"></textarea>
+              <label for="form22">Looking For :</label>
+            </div>
+            <!--Textarea with icon prefix-->
+            <div class="md-form mb-4 pink-textarea active-pink-textarea-2">
+              <i class="fas fa-angle-double-right prefix"></i>
+              <textarea id="form23" class="md-textarea form-control" name="interests" [(ngModel)]="user.interests"
+                rows="3"></textarea>
+              <label for="form23">Interests :</label>
+            </div>
+            <div class="form-row">
+              <div class="col-3">
+                <label> Location Details :</label>
+              </div>
+              <div class="col-6">
+                <!-- Default input -->
+                <input type="text" name="City" class="form-control" placeholder="City" [(ngModel)]="user.city">
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-3">
+                <!-- Default input -->
+                <input type="text" class="form-control" name="Country" placeholder="Country" [(ngModel)]="user.country">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="tab-pane fade" id="Interests-ex" role="tabpanel" aria-labelledby="Interests-tab-ex">
+          <h4>Interests</h4>
+          <p>Photo edit will go here</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

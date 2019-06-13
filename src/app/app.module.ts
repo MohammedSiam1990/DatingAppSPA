@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -25,6 +25,9 @@ import { AuthGuard } from './routerGuards/auth.guard';
 import { UserService } from './services/user.service';
 import { MemberDetailResolver } from './resolver/member-detail.resolver';
 import { MemberListResolver } from './resolver/member-list.resolver';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './resolver/member-edit.resolver';
+import { PreventUnsavedChanges } from './routerGuards/prevent-unsaved-changes.guard';
 
 
 
@@ -43,7 +46,8 @@ export function tokenGetter() {
       MemberCardComponent,
       MemberDetailComponent,
       ListsComponent,
-      MessagesComponent
+      MessagesComponent,
+      MemberEditComponent
    ],
    imports: [
       BrowserModule,
@@ -67,7 +71,9 @@ export function tokenGetter() {
       AuthGuard,
       UserService,
       MemberDetailResolver,
-      MemberListResolver
+      MemberListResolver,
+      MemberEditResolver,
+      PreventUnsavedChanges
    ],
    bootstrap: [
       AppComponent

@@ -150,8 +150,8 @@
             Welcome {{authService.decodedToken?.unique_name | titlecase}}
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#"><i class="fas fa-user-edit"></i>Edit Profile</a>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" [routerLink]="['/member-edit']"><i class="fas fa-user-edit"></i>Edit Profile</a>
+            <!-- <a class="dropdown-item" href="#">Another action</a> -->
             <a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-power-off"></i>Logout</a>
           </div>
         </li>
