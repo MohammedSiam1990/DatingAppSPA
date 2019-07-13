@@ -12,9 +12,12 @@ export class NavComponent implements OnInit {
   loginModel: any = {};
   registerModel: any = {};
   display: any ;
+  photoUrl: string ;
   @Output() cancelRegister = new EventEmitter();
   constructor(public authService: AuthService , private  alertify: AlertifyService , private router: Router) {}
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+  }
 
   login() {
     this.authService.login(this.loginModel).subscribe(
@@ -40,6 +43,9 @@ export class NavComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.authService.currentUser = null;
+    this.authService.decodedToken = null;
     this.alertify.message('logged out');
     this.router.navigate(['/home']);
   }

@@ -1,0 +1,6 @@
+#img-currentUser {
+    max-height: 50px;
+    display: inline;
+    border: 2px solid white;
+    border-radius: 50%;
+}

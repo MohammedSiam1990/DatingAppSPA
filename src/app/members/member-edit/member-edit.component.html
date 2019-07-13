@@ -17,7 +17,7 @@
 
         <!-- Card image -->
         <div class="view view-cascade overlay">
-          <img class="card-img-top" src="{{user.photoUrl}}" alt="{{user.knownAs}}">
+          <img class="card-img-top" src="{{photoUrl}}" alt="{{user.knownAs}}">
           <a>
             <div class="mask rgba-white-slight"></div>
           </a>
@@ -50,7 +50,8 @@
           </div>
 
           <!-- Button -->
-          <div><button class="btn btn-success w-100" form="editForm" [disabled]="!editForm.dirty">Save Changes</button></div>
+          <div><button class="btn btn-success w-100" form="editForm" [disabled]="!editForm.dirty">Save Changes</button>
+          </div>
 
 
         </div>
@@ -65,14 +66,14 @@
             aria-controls="profile-ex" aria-selected="true">Edit Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="Interests-tab-ex" data-toggle="tab" href="#Interests-ex" role="tab"
-            aria-controls="Interests-ex" aria-selected="false">Edit Photos</a>
+          <a class="nav-link" id="photos-tab-ex" data-toggle="tab" href="#photos-ex" role="tab"
+            aria-controls="photos-ex" aria-selected="false">Edit Photos</a>
         </li>
 
       </ul>
       <div class="tab-content pt-5" id="myTabContentEx">
         <div class="tab-pane fade active show" id="profile-ex" role="tabpanel" aria-labelledby="profile-tab-ex">
-          <form #editForm="ngForm" id="editForm" (ngSubmit) ="updateUser()">
+          <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
             <!--Textarea with icon prefix-->
             <div class="md-form mb-4 pink-textarea active-pink-textarea">
               <i class="fas fa-angle-double-right prefix"></i>
@@ -113,9 +114,8 @@
             </div>
           </form>
         </div>
-        <div class="tab-pane fade" id="Interests-ex" role="tabpanel" aria-labelledby="Interests-tab-ex">
-          <h4>Interests</h4>
-          <p>Photo edit will go here</p>
+        <div class="tab-pane fade" id="photos-ex" role="tabpane2" aria-labelledby="photos-tab-ex">
+          <app-photo-editor [photos]="user.photos" (getMemberPhotoChange)="updateMainPhoto($event)"></app-photo-editor>
         </div>
       </div>
     </div>
