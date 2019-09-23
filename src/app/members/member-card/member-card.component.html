@@ -5,7 +5,7 @@
   <div class="card-body d-flex flex-row">
 
     <!-- Avatar -->
-    <img src="{{user.photoUrl}}" class="rounded-circle mr-3" height="50px"
+    <img src="{{user.photoUrl || '../../../../../assets/user.png'" class="rounded-circle mr-3" height="50px"
       width="50px" alt="{{user.knownAs}}">
 
     <!-- Content -->
@@ -22,7 +22,7 @@
 
   <!-- Card image -->
   <div class="view overlay">
-    <img class="card-img-top rounded-0" src="{{user.photoUrl}}"
+    <img class="card-img-top rounded-0" src="{{user.photoUrl || '../../../../../assets/user.png'}}"
       alt="Card image cap">
     <a href="#!">
       <div class="mask rgba-white-slight"></div>

@@ -117,36 +117,9 @@
           <a class="nav-link" data-toggle="modal" data-target="#modalLRForm"><i class="fas fa-user"></i>
             <span class="clearfix d-none d-sm-inline-block">Profile</span></a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link"
-            ><i class="far fa-comments"></i>
-            <span class="clearfix d-none d-sm-inline-block">Support</span></a
-          >
-        </li> -->
-        <!-- <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdownMenuLink"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-          <i class="fas fa-envelope"></i>
-            
-            Account
-          </a>
-          <div
-            class="dropdown-menu dropdown-menu-right"
-            aria-labelledby="navbarDropdownMenuLink"
-          >
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li> -->
+
         <!-- <span> <img id="img-currentUser" src="{{authService.currentUser.photoUrl}}"></span> -->
-        <span> <img id="img-currentUser" src="{{photoUrl}}"></span> 
+        <span> <img id="img-currentUser" src="{{photoUrl || '../../../../../assets/user.png'}}"></span>
         <li *ngIf="loggedIn()" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -238,7 +211,8 @@
             <div class="tab-pane fade" id="panel8" role="tabpanel">
               <!--Body-->
               <div class="modal-body">
-                <form #registerForm="ngForm" (ngSubmit)="register()">
+                <!-- Template Drevin Form -->
+                <!-- <form #registerForm="ngForm" (ngSubmit)="register()">
                   <div class="md-form form-sm mb-5">
                     <i class="fas fa-envelope prefix"></i>
                     <input required name="username" [(ngModel)]="registerModel.username" type="text" id="modalLRInput12"
@@ -265,7 +239,117 @@
                       Sign up <i class="fas fa-sign-in ml-1"></i>
                     </button>
                   </div>
+                </form> -->
+                <!-- Reactive Forms -->
+                <form [formGroup]="registerForm" (ngSubmit)="register()">
+                  <div class="md-form form-sm mb-5">
+                    <!-- Material inline 1 -->
+                    <div class="form-check form-check-inline">
+                      <input type="radio" class="form-check-input" id="materialInline1"
+                        name="inlineMaterialRadiosExample">
+                      <label class="form-check-label" for="materialInline1">Male</label>
+                    </div>
+
+                    <!-- Material inline 2 -->
+                    <div class="form-check form-check-inline">
+                      <input type="radio" class="form-check-input" id="materialInline2"
+                        name="inlineMaterialRadiosExample">
+                      <label class="form-check-label" for="materialInline2">Female</label>
+                    </div>
+                  </div>
+                  <div class="md-form form-sm mb-5">
+                    <input [ngClass]="{'is-invalid': registerForm.get('knownAs').errors
+                          && registerForm.get('knownAs').touched}" formControlName="knownAs" type="text"
+                      id="modalLRInput12" class="form-control form-control-sm validate" />
+                    <div class="invalid-feedback">knownAs is required</div>
+                    <label data-error="wrong" data-success="right" for="modalLRInput9">Known As</label>
+                  </div>
+
+                  <div class="md-form form-sm mb-5">
+
+                    <input [ngClass]="{'is-invalid': registerForm.get('dateOfBirth').errors
+                            && registerForm.get('dateOfBirth').touched}" formControlName="dateOfBirth" type="date"
+                      id="modalLRInput12" class="form-control form-control-sm validate" />
+                    <div class="invalid-feedback">Date of Birth is required</div>
+                    <!-- <label data-error="wrong" data-success="right" for="modalLRInput12">Date of Birth</label> -->
+                  </div>
+
+                  <div class="md-form form-sm mb-5">
+
+
+                    <input [ngClass]="{'is-invalid': registerForm.get('city').errors
+                            && registerForm.get('city').touched}" formControlName="city" type="text"
+                      id="modalLRInput12" class="form-control form-control-sm validate" />
+                    <div class="invalid-feedback">city is required</div>
+                    <label data-error="wrong" data-success="right" for="modalLRInput10">city</label>
+                  </div>
+
+                  <div class="md-form form-sm mb-5">
+
+
+                    <input [ngClass]="{'is-invalid': registerForm.get('country').errors
+                              && registerForm.get('country').touched}" formControlName="country" type="text"
+                      id="modalLRInput12" class="form-control form-control-sm validate" />
+                    <div class="invalid-feedback">country is required</div>
+                    <label data-error="wrong" data-success="right" for="modalLRInput11">country</label>
+                  </div>
+
+                  <div class="md-form form-sm mb-5">
+                    <i class="fas fa-envelope prefix"></i>
+                    <input [ngClass]="{'is-invalid': registerForm.get('username').errors
+                      && registerForm.get('username').touched}" formControlName="username" type="text"
+                      id="modalLRInput12" class="form-control form-control-sm validate" />
+                    <div class="invalid-feedback">Please choose a username</div>
+                    <label data-error="wrong" data-success="right" for="modalLRInput12">Username</label>
+                  </div>
+
+                  <div class="md-form form-sm mb-5">
+                    <i class="fas fa-lock prefix"></i>
+                    <input [ngClass]="{'is-invalid': registerForm.get('password').errors
+                      && registerForm.get('password').touched}" formControlName="password" type="password"
+                      id="modalLRInput13" class="form-control form-control-sm validate" />
+
+                    <div *ngIf="registerForm.get('password').hasError('required')
+                        && registerForm.get('password').touched" class="invalid-feedback">Password is required
+                    </div>
+
+                    <div *ngIf="registerForm.get('password').hasError('minlength')
+                    && registerForm.get('password').touched" class="invalid-feedback">Password must be at least 4
+                      characters
+                    </div>
+
+                    <div *ngIf="registerForm.get('password').hasError('maxlength')
+                    && registerForm.get('password').touched" class="invalid-feedback"> Password cannot exceed 8
+                      characters
+                    </div>
+                    <label data-error="wrong" data-success="right" for="modalLRInput13"> password</label>
+                  </div>
+
+                  <div class="md-form form-sm mb-4">
+                    <i class="fas fa-lock prefix"></i>
+                    <input [ngClass]="{'is-invalid': registerForm.get('password').errors
+                    && registerForm.get('password').touched || registerForm.get('confirmPassword').touched 
+                    && registerForm.hasError('mismatch')}" formControlName="confirmPassword" type="password"
+                      id="modalLRInput14" class="form-control form-control-sm validate" />
+                    <div *ngIf="registerForm.get('confirmPassword').hasError('required')
+                      && registerForm.get('confirmPassword').touched" class="invalid-feedback">Password is required
+                    </div>
+                    <div *ngIf="registerForm.hasError('mismatch')
+                      && registerForm.get('confirmPassword').touched" class="invalid-feedback">Passwords must match
+                    </div>
+
+                    <label data-error="wrong" data-success="right" for="modalLRInput14">Confirm password</label>
+                  </div>
+
+                  <div class="text-center form-sm mt-2">
+                    <button class="btn btn-info" [disabled]="!registerForm.valid">
+                      Sign up <i class="fas fa-sign-in ml-1"></i>
+                    </button>
+                  </div>
                 </form>
+                <p> Form value : {{registerForm.value | json}}</p>
+                <p> Form status : {{registerForm.status | json}}</p>
+
               </div>
               <!--Footer-->
               <div class="modal-footer">
