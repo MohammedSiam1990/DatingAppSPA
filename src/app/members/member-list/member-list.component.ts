@@ -30,7 +30,6 @@ export class MemberListComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.users = data.users.result;
       this.pagination = data.users.pagination;
-      console.log(this.pagination.totalItems);
       // data['users'];
     });
     this.userParams.gender = this.user.gender === 'female' ? 'male' : 'female';
@@ -41,14 +40,9 @@ export class MemberListComponent implements OnInit {
   }
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
-    // console.log(this.pagination.currentPage);
+    console.log(this.pagination.currentPage);
     this.loadUsers();
   }
-  onItemChange() {
-    this.loadUsers();
-    console.log('orderBy');
-  }
-
   restFilters() {
     this.userParams.gender = this.user.gender === 'female' ? 'male' : 'female';
     this.userParams.minAge = 18;
@@ -67,6 +61,7 @@ export class MemberListComponent implements OnInit {
         (res: PaginationResult<User[]>) => {
           this.users = res.result;
           this.pagination = res.pagination;
+          console.log('Pagination Results' + res );
         },
         error => {
           this.alertify.error(error);

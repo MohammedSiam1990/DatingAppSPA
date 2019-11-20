@@ -18,8 +18,7 @@ export class UserService {
   baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  getUsers(page?, itemsPerPage?, userParams?): Observable<PaginationResult<User[]>> {
-    console.log('Test1000');
+  getUsers(page?, itemsPerPage?, userParams?, likesParam?): Observable<PaginationResult<User[]>> {
     const paginatedResult: PaginationResult<User[]> = new PaginationResult<User[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
@@ -34,19 +33,28 @@ export class UserService {
       params = params.append('orderBy', userParams.orderBy);
 
     }
+
+    if (likesParam === 'Likers') {
+       params = params.append('likers', 'true');
+    }
+
+    if (likesParam === 'Likees') {
+      params = params.append('likees', 'true');
+    }
+
     return this.http
       .get<User[]>(this.baseUrl + 'users', { observe: 'response', params })
       .pipe(
         map(responce => {
           paginatedResult.result = responce.body;
-          // console.log('paginatedResult' + paginatedResult.result);
-          // console.log('Paginagtion Headers ' + responce.headers.get('Pagination'));
+          console.log('return get http' + paginatedResult.result);
           if (responce.headers.get('Pagination') != null) {
             paginatedResult.pagination = JSON.parse(
               responce.headers.get('Pagination')
             );
           }
           return paginatedResult;
+          console.log('The Pagination result' + paginatedResult);
         })
       );
   }
@@ -71,5 +79,8 @@ export class UserService {
 
   deletePhoto(userId: number, id: number) {
     return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id);
+  }
+  sendLike(id: number, recipientId: number) {
+    return this.http.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {});
   }
 }
