@@ -40,12 +40,12 @@
       <a class="btn btn-flat red-text p-1 my-1 mr-0 mml-1 collapsed" data-toggle="collapse" href="#collapseContent"
         aria-expanded="false" aria-controls="collapseContent"></a>
         
-      <i class="fas fa-share-alt text-muted float-right p-1 my-2" data-toggle="tooltip" data-placement="top"
-        title="Share this post"></i>
+      <i class="fas fa fa-envelope text-muted float-right p-1 my-2" [routerLink] ="['/member-detail/',user.id]" [queryParams]="{tab:3}" data-toggle="tooltip" data-placement="top"
+        title="Messages for this User"></i>
       <i class="fas fa-heart text-muted float-right p-1 my-1 mr-2" (click) ="sendLike(user.id)" data-toggle="tooltip" data-placement="top"
         title="I like it"></i>
       <i class="fas fa-user-tie text-muted float-right p-1 my-2" [routerLink]="['/member-detail/',user.id]" data-toggle="tooltip" data-placement="top"
-        title="Share this post"></i>
+        title="User Details"></i>
         
 
     </div>

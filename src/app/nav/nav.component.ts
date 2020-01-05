@@ -60,6 +60,8 @@ export class NavComponent implements OnInit {
       () => {
         this.router.navigate(['/member-list']);
         this.display = 'none';
+        // To Reload Page
+        window.location.assign('http://localhost:4200/member-list');
       }
     );
   }
