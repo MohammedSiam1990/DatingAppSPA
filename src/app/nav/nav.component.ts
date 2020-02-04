@@ -2,8 +2,14 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertifyService } from '../services/alertify.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder
+} from '@angular/forms';
 import { User } from '../models/user';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-nav',
@@ -14,14 +20,36 @@ export class NavComponent implements OnInit {
   loginModel: any = {};
   // registerModel: any = {};
   user: User;
-  display: any ;
-  photoUrl: string ;
+  display: any;
+  photoUrl: string;
+  textDir: string;
   @Output() cancelRegister = new EventEmitter();
   registerForm: FormGroup;
-  constructor(public authService: AuthService , private  alertify: AlertifyService , private router: Router,
-              private fb: FormBuilder) {}
+  constructor(
+    public authService: AuthService,
+    private alertify: AlertifyService,
+    private router: Router,
+    private fb: FormBuilder,
+    public translate: TranslateService
+  ) {
+    translate.addLangs(['en', 'ar']);
+    translate.setDefaultLang('en');
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|ar/) ? browserLang : 'en');
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      if (event.lang === 'ar') {
+        this.textDir = 'rtl';
+        localStorage.setItem('textDir', 'ar');
+      } else {
+        this.textDir = 'ltr';
+        localStorage.setItem('textDir', 'en');
+      }
+    });
+  }
   ngOnInit() {
-    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+    this.authService.currentPhotoUrl.subscribe(
+      photoUrl => (this.photoUrl = photoUrl)
+    );
     // this.registerForm = new FormGroup({
     //   username: new FormControl('', Validators.required),
     //   password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]),
@@ -29,23 +57,34 @@ export class NavComponent implements OnInit {
     // }, this.passwordMatchValidator); OR The Best Using the Reactive Forms FormBuilder Service
     this.createRegisterForm(); // This is the Reactive Forms FormBuilder Service
   }
-
   createRegisterForm() {
     console.log('Test1');
-    this.registerForm = this.fb.group({
-      gender: ['male'],
-      username: ['', Validators.required],
-      knownAs: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      city: ['', Validators.required],
-      country: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
-      confirmPassword: ['', [Validators.required]]
-    }, {validators: this.passwordMatchValidator});
+    this.registerForm = this.fb.group(
+      {
+        gender: ['male'],
+        username: ['', Validators.required],
+        knownAs: ['', Validators.required],
+        dateOfBirth: ['', Validators.required],
+        city: ['', Validators.required],
+        country: ['', Validators.required],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(8)
+          ]
+        ],
+        confirmPassword: ['', [Validators.required]]
+      },
+      { validators: this.passwordMatchValidator }
+    );
   }
 
   passwordMatchValidator(g: FormGroup) {
-    return g.get('password').value === g.get('confirmPassword').value ? null : {mismatch: true};
+    return g.get('password').value === g.get('confirmPassword').value
+      ? null
+      : { mismatch: true };
   }
 
   login() {
@@ -62,6 +101,15 @@ export class NavComponent implements OnInit {
         this.display = 'none';
         // To Reload Page
         window.location.assign('http://localhost:4200/member-list');
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+          if (event.lang === 'ar') {
+            this.textDir = 'rtl';
+            localStorage.setItem('textDir', 'ar');
+          } else {
+            this.textDir = 'ltr';
+            localStorage.setItem('textDir', 'en');
+          }
+        });
       }
     );
   }
@@ -85,15 +133,19 @@ export class NavComponent implements OnInit {
     console.log('start');
     if (this.registerForm.valid) {
       this.user = Object.assign({}, this.registerForm.value);
-      this.authService.register(this.user).subscribe(() => {
-        this.alertify.success('Registration successful');
-      }, error => {
-        this.alertify.error(error);
-      }, () => {
-        this.authService.login(this.user).subscribe(() => {
-          this.router.navigate(['/member-list']);
-        });
-      });
+      this.authService.register(this.user).subscribe(
+        () => {
+          this.alertify.success('Registration successful');
+        },
+        error => {
+          this.alertify.error(error);
+        },
+        () => {
+          this.authService.login(this.user).subscribe(() => {
+            this.router.navigate(['/member-list']);
+          });
+        }
+      );
     }
     // this.authService.register(this.registerModel).subscribe(() => {
     //   this.alertify.success('Registration successful');

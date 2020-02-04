@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './models/user';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,12 @@ import { User } from './models/user';
 })
 export class AppComponent implements OnInit {
   title = 'DatingSPA';
+  public textDir: string;
   jwtHelper = new JwtHelperService();
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, public translate: TranslateService) {}
   ngOnInit() {
+    // tslint:disable-next-line: no-debugger
+    debugger;
     const token = localStorage.getItem('token');
     const user: User = JSON.parse(localStorage.getItem('user'));
     if (token) {
@@ -23,5 +27,11 @@ export class AppComponent implements OnInit {
       this.authService.currentUser = user;
       this.authService.changeMemberPhoto(user.photoUrl);
     }
+    if (localStorage.getItem('textDir') === 'ar') {
+        this.textDir = 'rtl';
+        console.log(this.textDir);
+      } else {
+        this.textDir = 'ltr';
+      }
   }
 }

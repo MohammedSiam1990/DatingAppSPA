@@ -1,13 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationModule, ButtonsModule, TabsModule  } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
-import {TimeAgoPipe} from 'time-ago-pipe';
+import { TimeAgoPipe } from 'time-ago-pipe';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -47,6 +49,10 @@ export function tokenGetter() {
    return localStorage.getItem('token');
  }
 
+export function HttpLoaderFactory(http: HttpClient) {
+   return new TranslateHttpLoader(http);
+ }
+
 
 @NgModule({
    declarations: [
@@ -78,6 +84,13 @@ export function tokenGetter() {
       TabsModule.forRoot(),
       NgxGalleryModule,
       FileUploadModule,
+      TranslateModule.forRoot({
+         loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+         }
+      }),
       JwtModule.forRoot({
          config: {
            tokenGetter ,

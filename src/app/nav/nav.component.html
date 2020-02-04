@@ -1,4 +1,4 @@
-<body class="fixed-sn pink-skin">
+<body class="fixed-sn pink-skin" dir="{{textDir}}">
   <!--Double navigation-->
   <header>
 
@@ -114,9 +114,21 @@
         <p>Dating App</p>
       </div>
       <ul class="nav navbar-nav nav-flex-icons ml-auto">
+        <li class="nav-item">
+          <!-- <a class="nav-link" data-toggle="modal" data-target="#modalLRForm"><i class="fas fa-user"></i>
+            <span class="clearfix d-none d-sm-inline-block" >Profile</span></a> -->
+          <span class="clearfix d-none d-sm-inline-block"> {{'HOME.SELECT' | translate}} </span>
+          <select #langselect (change) ="translate.use(langselect.value)">
+            <option *ngFor="let lang of translate.getLangs()" [value]="lang">
+              {{lang}}
+            </option>
+
+          </select>
+
+        </li>
         <li *ngIf="!loggedIn()" class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#modalLRForm"><i class="fas fa-user"></i>
-            <span class="clearfix d-none d-sm-inline-block">Profile</span></a>
+            <span class="clearfix d-none d-sm-inline-block" >{{'HOME.PROFILE' | translate}}</span></a>
         </li>
 
         <!-- <span> <img id="img-currentUser" src="{{authService.currentUser.photoUrl}}"></span> -->
@@ -212,35 +224,7 @@
             <div class="tab-pane fade" id="panel8" role="tabpanel">
               <!--Body-->
               <div class="modal-body">
-                <!-- Template Drevin Form -->
-                <!-- <form #registerForm="ngForm" (ngSubmit)="register()">
-                  <div class="md-form form-sm mb-5">
-                    <i class="fas fa-envelope prefix"></i>
-                    <input required name="username" [(ngModel)]="registerModel.username" type="text" id="modalLRInput12"
-                      class="form-control form-control-sm validate" />
-                    <label data-error="wrong" data-success="right" for="modalLRInput12">Username</label>
-                  </div>
-
-                  <div class="md-form form-sm mb-5">
-                    <i class="fas fa-lock prefix"></i>
-                    <input required name="password" [(ngModel)]="registerModel.password" type="password"
-                      id="modalLRInput13" class="form-control form-control-sm validate" />
-                    <label data-error="wrong" data-success="right" for="modalLRInput13">Your password</label>
-                  </div>
-
-                  <div class="md-form form-sm mb-4">
-                    <i class="fas fa-lock prefix"></i>
-                    <input required name="repassword" [(ngModel)]="registerModel.repassword" type="password"
-                      id="modalLRInput14" class="form-control form-control-sm validate" />
-                    <label data-error="wrong" data-success="right" for="modalLRInput14">Repeat password</label>
-                  </div>
-
-                  <div class="text-center form-sm mt-2">
-                    <button class="btn btn-info">
-                      Sign up <i class="fas fa-sign-in ml-1"></i>
-                    </button>
-                  </div>
-                </form> -->
+           
                 <!-- Reactive Forms -->
                 <form [formGroup]="registerForm" (ngSubmit)="register()">
                   <div class="md-form form-sm mb-5">
